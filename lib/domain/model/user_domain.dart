@@ -37,6 +37,6 @@ extension UserExtention on UserDomain {
       );
 }
 extension UserListExtension on List<UserDomain> {
-  List<UserItem> mapToMovieListItem() =>
+  List<UserItem> mapToUserListItem() =>
       map((e) => e.mapToUserPresentation()).toList();
 }

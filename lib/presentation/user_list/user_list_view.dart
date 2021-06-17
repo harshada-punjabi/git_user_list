@@ -39,7 +39,7 @@ class UserListViewState
     model.scrollController.addListener(onScroll);
 
     await model.getUserList();
-    print('initState MovieListScreen');
+    print('initState userListScreen');
 
 
   }
@@ -52,7 +52,7 @@ class UserListViewState
     final maxScroll = getViewModel().scrollController.position.maxScrollExtent;
     final currentScroll = getViewModel().scrollController.position.pixels;
     if (maxScroll - currentScroll <= getViewModel().scrollThreshold) {
-      // todo add the movies of next page
+
     }
   }
 

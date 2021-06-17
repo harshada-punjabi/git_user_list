@@ -17,7 +17,7 @@ class GetUsersUseCase
       {GetUsersUseCaseParams params}) async {
     List<UserDomain> userDomainList =
     await _repository.fetchUserList();
-    return userDomainList.mapToMovieListItem();
+    return userDomainList.mapToUserListItem();
   }
 }
 class GetUsersUseCaseParams{}

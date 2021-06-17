@@ -14,33 +14,14 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
   List<UserItem> _userList = [];
   final scrollController = ScrollController();
   final scrollThreshold = 200.0;
-  final nowPlayingPageController = PageController(viewportFraction: 1);
-  int nowPlayingMoviesCount = 0;
-  int currentNowPlayingPageIndex = 0;
-  List<UserItem> get movieList => _userList;
 
-  set movieList(List<UserItem> value) {
+  List<UserItem> get userList => _userList;
+
+  set userList(List<UserItem> value) {
     _userList = value;
     notifyListeners();
   }
 
-  void autoSlideNowPlayingPages() {
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (nowPlayingMoviesCount > 1) {
-        if (currentNowPlayingPageIndex < nowPlayingMoviesCount) {
-          currentNowPlayingPageIndex++;
-        } else {
-          currentNowPlayingPageIndex = 0;
-        }
-
-        nowPlayingPageController.animateToPage(
-          currentNowPlayingPageIndex,
-          duration: Duration(milliseconds: 750),
-          curve: Curves.easeIn,
-        );
-      }
-    });
-  }
   Future<void> getUserList() async {
     //if the data is loading
     setBusy(true);
@@ -48,18 +29,16 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
         .buildUseCaseFuture()
         .catchError((error) {
       print("error> ${error.toString()}");
-      movieList.clear();
+      userList.clear();
 
       setBusy(false);
     }, test: (error) => error is UserListLandingError);
     _userList = [];
     if (result != null) {
-      movieList.addAll(result);
-      print('length of the movie list is as follows ${movieList.length}');
+      userList.addAll(result);
+      print('length of the user list is as follows ${userList.length}');
     }
     setBusy(false);
     // return result;
   }
-
-
 }
