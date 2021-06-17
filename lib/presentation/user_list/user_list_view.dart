@@ -35,7 +35,6 @@ class UserListViewState
   @override
   void onModelReady(UserListViewModel model) async{
     //widget is created
-    model.autoSlideNowPlayingPages();
     model.scrollController.addListener(onScroll);
 
     await model.getUserList();
