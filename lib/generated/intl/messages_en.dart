@@ -20,9 +20,12 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "unExpectedError" : MessageLookupByLibrary.simpleMessage("There was an unexpected error. Please try again later"),
-    "appName" : MessageLookupByLibrary.simpleMessage("Git User"),
-    "gitUserListLoad" : MessageLookupByLibrary.simpleMessage("Currently no list available please bind UI with data to show the list"),
-  };
+
+  static _notInlinedMessages(_) => <String, Function>{
+        "unExpectedError": MessageLookupByLibrary.simpleMessage(
+            "There was an unexpected error. Please try again later"),
+        "appName": MessageLookupByLibrary.simpleMessage("Git User"),
+        "gitUserListLoad": MessageLookupByLibrary.simpleMessage(
+            "Currently no list available please bind UI with data to show the list"),
+      };
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 /// T is the response type for presentation layer
@@ -9,4 +8,4 @@ abstract class BaseUseCase<T, Params> {
   Stream<T> buildUseCaseObservable({@required Params params}) {}
 }
 
-class BaseUseCaseParams{}
+class BaseUseCaseParams {}

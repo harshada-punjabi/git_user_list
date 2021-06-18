@@ -5,10 +5,10 @@ class UserEntity {
   final int id;
   final String login;
 
-  UserEntity(
-      {this.id,
-      this.login,
-      });
+  UserEntity({
+    this.id,
+    this.login,
+  });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity(
@@ -24,7 +24,7 @@ extension UserEntityExtention on UserEntity {
         login: login,
       );
 }
+
 extension UserListExtension on List<UserEntity> {
-  List<UserDomain> mapToDomain() =>
-      map((e) => e.mapToDomain()).toList();
+  List<UserDomain> mapToDomain() => map((e) => e.mapToDomain()).toList();
 }

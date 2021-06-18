@@ -14,7 +14,7 @@ class UserItem {
 
 extension DomainToPresenationExt on UserDomain {
   UserItem mapToPresentation() => UserItem(
-    id: this.id,
-    login: this.login,
-  );
+        id: this.id,
+        login: this.login,
+      );
 }

@@ -7,16 +7,15 @@ import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart
 import 'package:git_users/presentation/user_list/user_list_view_model.dart';
 import 'package:provider/provider.dart';
 
-
 class UserListView extends GitUserBaseView<UserListViewModel> {
   UserListView();
+
   @override
   UserListViewState createState() => UserListViewState();
 }
 
 class UserListViewState
     extends UserListViewBaseState<UserListViewModel, UserListView> {
-
   UserListViewState() {
     setRequiresLogin(false);
   }
@@ -28,32 +27,34 @@ class UserListViewState
         portrait: (context) => Container(
           color: Colors.black,
           child: Center(
-            child: Text(S.of(context).gitUserListLoad, style: TextStyle(color: Colors.white),),),),
+            child: Text(
+              S.of(context).gitUserListLoad,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
       ),
     );
-
   }
+
   @override
-  void onModelReady(UserListViewModel model) async{
+  void onModelReady(UserListViewModel model) async {
     //widget is created
     model.scrollController.addListener(onScroll);
 
     await model.getUserList();
     print('initState userListScreen');
-
-
   }
+
   @override
   UserListViewModel initViewModel() {
-
     return UserListViewModel(Provider.of(context));
   }
+
   void onScroll() {
     final maxScroll = getViewModel().scrollController.position.maxScrollExtent;
     final currentScroll = getViewModel().scrollController.position.pixels;
-    if (maxScroll - currentScroll <= getViewModel().scrollThreshold) {
-
-    }
+    if (maxScroll - currentScroll <= getViewModel().scrollThreshold) {}
   }
 
   @override

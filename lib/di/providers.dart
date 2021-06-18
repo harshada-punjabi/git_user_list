@@ -25,27 +25,24 @@ List<SingleChildWidget> independentServices = [
   Provider(create: (_) => RESTService()),
 ];
 
-List<SingleChildWidget> uiConsumableProviders = [
-
-];
+List<SingleChildWidget> uiConsumableProviders = [];
 
 List<SingleChildWidget> dependentServices = [
-  ProxyProvider<UserListLandingErrorParser, ErrorHandler<UserListLandingErrorParser>>(
+  ProxyProvider<UserListLandingErrorParser,
+      ErrorHandler<UserListLandingErrorParser>>(
     update: (context, errorParser, errorHandler) =>
         ErrorHandler<UserListLandingErrorParser>(errorParser),
   ),
   ProxyProvider<GitUserStore, UserStore<UserDomain>>(
     update: (
-        context,
+      context,
+      localStore,
+      userStore,
+    ) =>
         localStore,
-        userStore,
-        ) =>
-    localStore,
   ),
-
   ProxyProvider<RESTService, UserRequest>(
-    update: (context, RESTService restService,
-        UserRequest userRequest) =>
+    update: (context, RESTService restService, UserRequest userRequest) =>
         UserRequest(restService),
   ),
   ProxyProvider<UserRequest, UserDataSource>(
@@ -53,15 +50,11 @@ List<SingleChildWidget> dependentServices = [
         UserDataSourceImpl(userRequest),
   ),
   ProxyProvider<UserDataSource, UserRepository>(
-    update: (context, dataSource, repository) =>
-        UserRepositoryImpl(dataSource),
+    update: (context, dataSource, repository) => UserRepositoryImpl(dataSource),
   ),
   ProxyProvider<UserRepository, GetUsersUseCase>(
-    update: (context, UserRepository userRepo,
-        GetUsersUseCase getUsersUseCase) =>
-        GetUsersUseCase(userRepo),
+    update:
+        (context, UserRepository userRepo, GetUsersUseCase getUsersUseCase) =>
+            GetUsersUseCase(userRepo),
   ),
-
-
-
 ];

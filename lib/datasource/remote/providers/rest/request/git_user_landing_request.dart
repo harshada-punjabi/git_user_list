@@ -2,22 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter_base_architecture/data/remote/request/rest_request.dart';
 import 'package:flutter_base_architecture/data/remote/rest_service.dart';
 
-
 abstract class GitUserLandingRestRequest extends RESTRequest {
   RESTService service;
- static const int page = 1;
+  static const int page = 1;
 
   GitUserLandingRestRequest(this.service,
       {apiUrl = 'https://api.github.com',
-        schema: "https",
-        host: "api.github.com"}
-      )
+      schema: "https",
+      host: "api.github.com"})
       : super(
-    service,
-    apiUrl: apiUrl,
-    schema: schema,
-    host: host,
-  ) {
+          service,
+          apiUrl: apiUrl,
+          schema: schema,
+          host: host,
+        ) {
     this.service = service;
   }
 
@@ -27,7 +25,7 @@ abstract class GitUserLandingRestRequest extends RESTRequest {
       {forceRefresh: false}) async {
     return await super
         .execute(endpoint, params, apiCallMethod, apiIdentifier,
-        forceRefresh: forceRefresh)
+            forceRefresh: forceRefresh)
         .then((value) => value, onError: (e) {});
   }
 }

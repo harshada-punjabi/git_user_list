@@ -11,7 +11,6 @@ import 'package:git_users/domain/model/user_domain.dart';
 
 import '../../../git_user_landing_page_route_path.dart';
 
-
 class GitUserLandingBaseViewModel extends BaseViewModel {
   bool _dataChanged = false;
 
@@ -32,7 +31,6 @@ abstract class GitUserBaseView<VM extends GitUserLandingBaseViewModel>
 abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
         T extends GitUserBaseView<VM>>
     extends BaseStatefulScreen<VM, T, UserListLandingErrorParser, UserDomain> {
-
   ThemeData _theme;
 
   ThemeData get theme => _theme;
@@ -50,6 +48,7 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
       showUserListToastMessage(getErrorMessage(error));
     });
   }
+
   @override
   Future<bool> userIsLoggedIn() async {
     bool status = await super.userIsLoggedIn();
@@ -59,6 +58,7 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
     }
     return status;
   }
+
   @override
   Widget getLayout() {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -93,7 +93,6 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
           }),
     );
   }
-
 
   @override
   String onBoardingRoutePath() {
@@ -142,8 +141,7 @@ class UserListLandingErrorType extends BaseErrorType {
   static const UserListLandingErrorType SERVER_MESSAGE =
       const UserListLandingErrorType(3);
   static const UserListLandingErrorType OTHER =
-  const UserListLandingErrorType(4);
-
+      const UserListLandingErrorType(4);
 }
 
 class UserListLandingErrorParser extends BaseErrorParser {
@@ -152,7 +150,6 @@ class UserListLandingErrorParser extends BaseErrorParser {
 
 abstract class UserListBaseModelWidget<VM>
     extends BaseModelWidget<VM, UserListLandingErrorParser> {
-
   ThemeData _theme;
 
   ThemeData get theme => _theme;
@@ -168,8 +165,8 @@ abstract class UserListBaseModelWidget<VM>
 
 showUserListToastMessage(
   String message, {
-   Color backgroundColor,
-   Color textColor,
+  Color backgroundColor,
+  Color textColor,
   ToastGravity gravity: ToastGravity.BOTTOM,
 }) {
   Fluttertoast.showToast(

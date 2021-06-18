@@ -5,12 +5,14 @@ import 'package:git_users/domain/model/user_domain.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/datasource/entity/user_entity.dart';
 
-class UserDataSourceImpl extends UserDataSource{
+class UserDataSourceImpl extends UserDataSource {
   UserRequest _userRequest;
+
   UserDataSourceImpl(this._userRequest);
+
   @override
-  Future<List<UserDomain>> getUsers() async{
-    try{
+  Future<List<UserDomain>> getUsers() async {
+    try {
       var response = await _userRequest.getUsers();
       UserResponse userResponse = UserResponse(response);
       if (userResponse.getErrors().length != 0) {
@@ -20,11 +22,10 @@ class UserDataSourceImpl extends UserDataSource{
       } else {
         return userResponse.getData().mapToDomain();
       }
-    } catch(exception){
+    } catch (exception) {
       throw UserListLandingError(
           message: exception.toString(),
           type: UserListLandingErrorType.SERVER_MESSAGE);
     }
   }
-
 }

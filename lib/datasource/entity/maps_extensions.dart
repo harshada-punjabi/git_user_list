@@ -7,12 +7,10 @@ extension DefaultMap<K, V> on Map<K, V> {
               : false))) {
         return defaultValue;
       } else {
-       return this[key];
+        return this[key];
       }
     } else {
       return defaultValue;
     }
   }
 }
-
-

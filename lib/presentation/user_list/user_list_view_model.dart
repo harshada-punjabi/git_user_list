@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
   GetUsersUseCase _getUsersUseCase;
 
   UserListViewModel(this._getUsersUseCase);
+
   List<UserItem> _userList = [];
   final scrollController = ScrollController();
   final scrollThreshold = 200.0;
@@ -25,9 +25,8 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
   Future<void> getUserList() async {
     //if the data is loading
     setBusy(true);
-    final List<UserItem> result = await _getUsersUseCase
-        .buildUseCaseFuture()
-        .catchError((error) {
+    final List<UserItem> result =
+        await _getUsersUseCase.buildUseCaseFuture().catchError((error) {
       print("error> ${error.toString()}");
       userList.clear();
 
