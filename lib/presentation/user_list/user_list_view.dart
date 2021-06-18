@@ -27,7 +27,7 @@ class UserListViewState
         portrait: (context) => Container(
           color: Colors.black,
           child: Center(
-            child: Text('add the view here'),),),
+            child: Text('add the view here', style: TextStyle(color: Colors.white),),),),
       ),
     );
 
