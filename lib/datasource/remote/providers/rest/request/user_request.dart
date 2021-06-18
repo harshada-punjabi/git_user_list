@@ -14,7 +14,7 @@ class UserRequest extends GitUserLandingRestRequest{
       return 31;
     });
     print('the end point${Endpoint.USERS}');
-    return await execute(Endpoint.USERS.toString(), params,
+    return await execute(Endpoint.USERS, params,
         RESTService.GET, ApiIdentifier.API_USER_LIST,forceRefresh: true);
   }
 

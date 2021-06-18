@@ -20,7 +20,7 @@ List<SingleChildWidget> providers = [
 ];
 
 List<SingleChildWidget> independentServices = [
-  Provider.value(value: GitUserUserStore()),
+  Provider.value(value: GitUserStore()),
   Provider.value(value: UserListLandingErrorParser()),
   Provider(create: (_) => RESTService()),
 ];
@@ -34,7 +34,7 @@ List<SingleChildWidget> dependentServices = [
     update: (context, errorParser, errorHandler) =>
         ErrorHandler<UserListLandingErrorParser>(errorParser),
   ),
-  ProxyProvider<GitUserUserStore, UserStore<UserDomain>>(
+  ProxyProvider<GitUserStore, UserStore<UserDomain>>(
     update: (
         context,
         localStore,

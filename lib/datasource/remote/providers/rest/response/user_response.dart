@@ -17,10 +17,8 @@ class UserResponse extends GitUserLandingResponse<UserEntity> {
     switch (apiIdentifier) {
       case ApiIdentifier.API_USER_LIST:
         try {
-          var responseData = data as Map<String, dynamic>;
-          // var list = responseData.getOrElse("results", List()) as List<dynamic>;
-          var list = responseData.getOrElse("", List()) as List<dynamic>;
-          List<UserEntity> userListEntity = list.map((json) {
+          var responseData = data as List<dynamic>;
+          List<UserEntity> userListEntity = responseData.map((json) {
             return UserEntity.fromJson(json);
           }).toList();
           getData().addAll(userListEntity);

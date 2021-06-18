@@ -9,7 +9,7 @@ abstract class GitUserLandingRestRequest extends RESTRequest {
 
   GitUserLandingRestRequest(this.service,
       {apiUrl = 'https://api.github.com',
-        schema: "http",
+        schema: "https",
         host: "api.github.com"}
       )
       : super(

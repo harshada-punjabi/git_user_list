@@ -3,7 +3,7 @@ import 'package:flutter_base_architecture/data/local/sharedpreferences/user_stor
 import 'package:git_users/domain/model/user_domain.dart';
 import 'package:git_users/presentation/model/user_item.dart';
 
-class GitUserUserStore extends UserStore<UserDomain> {
+class GitUserStore extends UserStore<UserDomain> {
   StreamController<UserItem> _userController = StreamController<UserItem>();
 
   Stream<UserItem> get userStream => _userController.stream;
