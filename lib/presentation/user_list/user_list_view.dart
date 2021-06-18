@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_architecture/responsive/orientation_layout.dart';
 import 'package:flutter_base_architecture/responsive/screen_type_layout.dart';
+import 'package:git_users/generated/l10n.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/presentation/user_list/user_list_view_model.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class UserListViewState
         portrait: (context) => Container(
           color: Colors.black,
           child: Center(
-            child: Text('add the view here', style: TextStyle(color: Colors.white),),),),
+            child: Text(S.of(context).gitUserListLoad, style: TextStyle(color: Colors.white),),),),
       ),
     );
 
