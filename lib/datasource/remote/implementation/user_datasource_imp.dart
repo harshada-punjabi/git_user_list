@@ -11,9 +11,9 @@ class UserDataSourceImpl extends UserDataSource {
   UserDataSourceImpl(this._userRequest);
 
   @override
-  Future<List<UserDomain>> getUsers() async {
+  Future<List<UserDomain>> getUsers({int page}) async {
     try {
-      var response = await _userRequest.getUsers();
+      var response = await _userRequest.getUsers(page: page);
       UserResponse userResponse = UserResponse(response);
       if (userResponse.getErrors().length != 0) {
         throw UserListLandingError(

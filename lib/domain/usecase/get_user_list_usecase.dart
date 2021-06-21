@@ -13,9 +13,12 @@ class GetUsersUseCase
   @override
   Future<List<UserItem>> buildUseCaseFuture(
       {GetUsersUseCaseParams params}) async {
-    List<UserDomain> userDomainList = await _repository.fetchUserList();
+    List<UserDomain> userDomainList = await _repository.fetchUserList(page: params.page);
     return userDomainList.mapToUserListItem();
   }
 }
 
-class GetUsersUseCaseParams {}
+class GetUsersUseCaseParams {
+  int page;
+  GetUsersUseCaseParams(this.page);
+}

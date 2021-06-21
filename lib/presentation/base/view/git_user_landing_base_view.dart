@@ -43,6 +43,7 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
     );
   }
 
+
   void onModelReady(VM model) {
     model.onErrorListener((error) {
       showUserListToastMessage(getErrorMessage(error));
@@ -69,26 +70,29 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
           viewModel: getViewModel(),
           onModelReady: onModelReady,
           builder: (context, VM model, Widget child) {
-            return SafeArea(
-              child: Scaffold(
-                  backgroundColor: scaffoldColor(),
-                  key: scaffoldKey,
-                  extendBodyBehindAppBar: extendBodyBehindAppBar(),
-                  extendBody: extendBody(),
-                  appBar: buildAppbar(),
-                  body: buildBody(),
-                  bottomNavigationBar: buildBottomNavigationBar(),
-                  floatingActionButton: floatingActionButton(),
-                  floatingActionButtonLocation: floatingActionButtonLocation(),
-                  floatingActionButtonAnimator: floatingActionButtonAnimator(),
-                  persistentFooterButtons: persistentFooterButtons(),
-                  drawer: drawer(),
-                  endDrawer: endDrawer(),
-                  bottomSheet: bottomSheet(),
-                  resizeToAvoidBottomInset: resizeToAvoidBottomInset(),
-                  drawerDragStartBehavior: drawerDragStartBehavior(),
-                  drawerScrimColor: drawerScrimColor(),
-                  drawerEdgeDragWidth: drawerEdgeDragWidth()),
+            return DefaultTabController(
+              length: 2,
+              child: SafeArea(
+                child: Scaffold(
+                    backgroundColor: scaffoldColor(),
+                    key: scaffoldKey,
+                    extendBodyBehindAppBar: extendBodyBehindAppBar(),
+                    extendBody: extendBody(),
+                    appBar: buildAppbar(),
+                    body: buildBody(),
+                    bottomNavigationBar: buildBottomNavigationBar(),
+                    floatingActionButton: floatingActionButton(),
+                    floatingActionButtonLocation: floatingActionButtonLocation(),
+                    floatingActionButtonAnimator: floatingActionButtonAnimator(),
+                    persistentFooterButtons: persistentFooterButtons(),
+                    drawer: drawer(),
+                    endDrawer: endDrawer(),
+                    bottomSheet: bottomSheet(),
+                    resizeToAvoidBottomInset: resizeToAvoidBottomInset(),
+                    drawerDragStartBehavior: drawerDragStartBehavior(),
+                    drawerScrimColor: drawerScrimColor(),
+                    drawerEdgeDragWidth: drawerEdgeDragWidth()),
+              ),
             );
           }),
     );
@@ -111,7 +115,7 @@ abstract class UserListViewBaseState<VM extends GitUserLandingBaseViewModel,
 
   @override
   Color scaffoldColor() {
-    return Color(0xFF181822);
+    return Colors.white;
   }
 
   bool extendBodyBehindAppBar() {

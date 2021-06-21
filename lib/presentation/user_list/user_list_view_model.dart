@@ -11,9 +11,12 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
 
   UserListViewModel(this._getUsersUseCase);
 
+  ScrollController userListScrollController = ScrollController();
+
   List<UserItem> _userList = [];
   final scrollController = ScrollController();
   final scrollThreshold = 200.0;
+  int page = 0;
 
   List<UserItem> get userList => _userList;
 
@@ -22,18 +25,17 @@ class UserListViewModel extends GitUserLandingBaseViewModel {
     notifyListeners();
   }
 
-  Future<void> getUserList() async {
+  Future<dynamic> getUserList({GetUsersUseCaseParams params}) async {
     //if the data is loading
     setBusy(true);
     final List<UserItem> result =
-        await _getUsersUseCase.buildUseCaseFuture().catchError((error) {
+        await _getUsersUseCase.buildUseCaseFuture(params: params).catchError((error) {
       print("error> ${error.toString()}");
-      userList.clear();
-
       setBusy(false);
     }, test: (error) => error is UserListLandingError);
-    _userList = [];
+    // _userList = [];
     if (result != null) {
+      page = result.length;
       userList.addAll(result);
       print('length of the user list is as follows ${userList.length}');
     }

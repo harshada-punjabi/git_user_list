@@ -8,7 +8,7 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.dataSource);
 
   @override
-  Future<List<UserDomain>> fetchUserList() {
-    return dataSource.getUsers();
+  Future<List<UserDomain>> fetchUserList({int page}) {
+    return dataSource.getUsers(page: page);
   }
 }

@@ -10,6 +10,7 @@ import 'package:git_users/domain/model/user_domain.dart';
 import 'package:git_users/domain/repository/user_repository.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
+import 'package:git_users/presentation/model/user_item.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -20,13 +21,18 @@ List<SingleChildWidget> providers = [
 ];
 
 List<SingleChildWidget> independentServices = [
-  Provider.value(value: GitUserStore()),
-  Provider.value(value: UserListLandingErrorParser()),
+  Provider(create:(_) => GitUserStore()),
+  Provider(create:(_) => UserListLandingErrorParser()),
   Provider(create: (_) => RESTService()),
 ];
 
-List<SingleChildWidget> uiConsumableProviders = [];
-
+List<SingleChildWidget> uiConsumableProviders = [
+  StreamProvider<UserItem>(
+    initialData: UserItem(),
+    create: (context) =>
+    Provider.of<GitUserStore>(context, listen: false).userStream,
+  ),
+];
 List<SingleChildWidget> dependentServices = [
   ProxyProvider<UserListLandingErrorParser,
       ErrorHandler<UserListLandingErrorParser>>(
