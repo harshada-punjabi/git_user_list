@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_base_architecture/data/local/sharedpreferences/user_stores.dart';
 import 'package:flutter_base_architecture/data/remote/rest_service.dart';
 import 'package:flutter_base_architecture/exception/base_error_handler.dart';
@@ -11,6 +12,8 @@ import 'package:git_users/domain/repository/user_repository.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/presentation/model/user_item.dart';
+import 'package:git_users/presentation/user_list/all_user_list/list_view_model.dart';
+import 'package:git_users/presentation/user_list/selected_user/selected_user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -32,6 +35,7 @@ List<SingleChildWidget> uiConsumableProviders = [
     create: (context) =>
     Provider.of<GitUserStore>(context, listen: false).userStream,
   ),
+
 ];
 List<SingleChildWidget> dependentServices = [
   ProxyProvider<UserListLandingErrorParser,
@@ -63,4 +67,12 @@ List<SingleChildWidget> dependentServices = [
         (context, UserRepository userRepo, GetUsersUseCase getUsersUseCase) =>
             GetUsersUseCase(userRepo),
   ),
+  ChangeNotifierProvider< BaseListViewModel>(
+      create:
+          (context) =>
+              BaseListViewModel( userListScrollController: ScrollController())),
+  ChangeNotifierProvider<SelectedListViewModel>(
+      create:
+          (context) =>
+              SelectedListViewModel()),
 ];

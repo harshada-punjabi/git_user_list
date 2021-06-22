@@ -1,16 +1,25 @@
 import 'package:git_users/domain/model/user_domain.dart';
+import 'package:hive/hive.dart';
 
+@HiveType()
 class UserItem {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String login;
+  @HiveField(2)
   final String avtar;
+  bool isSelected;
 
   UserItem({
     this.id,
     this.login,
-    this.avtar
+    this.avtar,
+    this.isSelected = false
   });
-
+  setSelected(bool value) {
+    this.isSelected = value;
+  }
   bool isTemporaryUser() => this.id == -1;
 }
 
