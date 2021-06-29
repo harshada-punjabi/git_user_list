@@ -2,13 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_base_architecture/data/local/sharedpreferences/user_stores.dart';
 import 'package:flutter_base_architecture/data/remote/rest_service.dart';
 import 'package:flutter_base_architecture/exception/base_error_handler.dart';
+
+import 'package:git_users/data/datasources/user_datasource.dart';
 import 'package:git_users/data/repository/user_repository_impl.dart';
-import 'package:git_users/datasource/datasources/user_datasource.dart';
 import 'package:git_users/datasource/local/git_user_business_userstore.dart';
+
 import 'package:git_users/datasource/remote/implementation/user_datasource_imp.dart';
+import 'package:git_users/datasource/remote/providers/rest/request/local/hive_request.dart';
 import 'package:git_users/datasource/remote/providers/rest/request/user_request.dart';
 import 'package:git_users/domain/model/user_domain.dart';
+
 import 'package:git_users/domain/repository/user_repository.dart';
+import 'package:git_users/domain/usecase/add_user_hive_usecase.dart';
+import 'package:git_users/domain/usecase/get_hive_users_usecase.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/presentation/model/user_item.dart';
@@ -27,6 +33,7 @@ List<SingleChildWidget> independentServices = [
   Provider(create:(_) => GitUserStore()),
   Provider(create:(_) => UserListLandingErrorParser()),
   Provider(create: (_) => RESTService()),
+  Provider(create: (_) => HiveRequest()),
 ];
 
 List<SingleChildWidget> uiConsumableProviders = [
@@ -55,9 +62,9 @@ List<SingleChildWidget> dependentServices = [
     update: (context, RESTService restService, UserRequest userRequest) =>
         UserRequest(restService),
   ),
-  ProxyProvider<UserRequest, UserDataSource>(
-    update: (context, userRequest, dataSource) =>
-        UserDataSourceImpl(userRequest),
+  ProxyProvider2<UserRequest, HiveRequest, UserDataSource>(
+    update: (context, userRequest, hiveRequest, dataSource) =>
+        UserDataSourceImpl(userRequest, hiveRequest),
   ),
   ProxyProvider<UserDataSource, UserRepository>(
     update: (context, dataSource, repository) => UserRepositoryImpl(dataSource),
@@ -67,12 +74,19 @@ List<SingleChildWidget> dependentServices = [
         (context, UserRepository userRepo, GetUsersUseCase getUsersUseCase) =>
             GetUsersUseCase(userRepo),
   ),
-  ChangeNotifierProvider< BaseListViewModel>(
+  ProxyProvider<UserRepository, GetHiveUsersUseCase>(
+    update:
+        (context, UserRepository userRepo, GetHiveUsersUseCase getHiveUsersUseCase) =>
+            GetHiveUsersUseCase(userRepo),
+  ),
+  ProxyProvider<UserRepository, AddUsersUseCase>(
+    update:
+        (context, UserRepository userRepo, AddUsersUseCase addUserUsecase) =>
+            AddUsersUseCase(userRepo),
+  ),
+  ChangeNotifierProvider<BaseListViewModel>(
       create:
           (context) =>
               BaseListViewModel( userListScrollController: ScrollController())),
-  ChangeNotifierProvider<SelectedListViewModel>(
-      create:
-          (context) =>
-              SelectedListViewModel()),
+
 ];

@@ -1,10 +1,11 @@
+import 'package:git_users/domain/model/user_domain.dart';
 import 'package:git_users/presentation/model/user_item.dart';
 import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
 
 @HiveType()
-class User{
+class User extends UserDomain{
   @HiveField(0)
   final int id;
 

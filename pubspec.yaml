@@ -37,6 +37,10 @@ dependencies:
   cached_network_image: ^2.2.0+1
   hive: ^1.4.1+1
   path_provider: ^1.6.5
+  # IoC
+  kiwi: ^2.1.1
+  # network info
+  connectivity: ^0.4.9+3
 
   flutter_base_architecture:
     git:

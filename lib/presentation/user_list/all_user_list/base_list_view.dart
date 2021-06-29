@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/ui/base_widget.dart';
+import 'package:git_users/domain/usecase/add_user_hive_usecase.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/generated/l10n.dart';
 import 'package:git_users/presentation/model/user_item.dart';
@@ -13,9 +14,12 @@ class BaseListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BaseWidget<BaseListViewModel>(
-      viewModel: BaseListViewModel(getUsersUseCase: Provider.of(context), userListScrollController: ScrollController(),),
+      viewModel: BaseListViewModel(
+        getUsersUseCase: Provider.of(context), userListScrollController: ScrollController(),
+          addUsersUseCase: Provider.of<AddUsersUseCase>(context, listen: false)),
       onModelReady: (model) async {
         await model.getUserList(params: GetUsersUseCaseParams(model.page));
+        model.addUsersUseCase = Provider.of(context);
         model.userListScrollController.addListener(() async {
           if (model.userListScrollController.position.maxScrollExtent ==
                   model.userListScrollController.position.pixels &&
@@ -119,7 +123,7 @@ class BaseListViewWidget extends StatelessWidget {
                   }
                   return GestureDetector(
                       onTap: () async{
-                        model.selectCard(model.userList[index], context: context);
+                        model.selectCard(model.userList[index], context: context, getHiveUsersUseCaseParams: GetHiveUsersUseCaseParams(model.userList));
 
                       },
                       child: Container(

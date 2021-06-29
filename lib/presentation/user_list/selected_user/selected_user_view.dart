@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/ui/base_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:git_users/generated/l10n.dart';
 import 'package:git_users/presentation/model/user_item.dart';
 import 'package:git_users/presentation/user_list/selected_user/selected_user_model.dart';
@@ -15,7 +16,7 @@ class SelectedListViewWidget extends StatelessWidget {
     context.watch<SelectedListViewModel>().getItem();
 
     return BaseWidget<SelectedListViewModel>(
-      viewModel: SelectedListViewModel(),
+      viewModel: SelectedListViewModel(Provider.of(context)),
       onModelReady: (model){
         model.getItem();
       },

@@ -31,3 +31,11 @@ extension DomainToPresenationExt on UserDomain {
 
       );
 }
+extension PresentationToDomain on UserItem {
+  UserDomain mapToPDomain() => UserDomain(
+      id: this.id,
+      login: this.login,
+      avatar: this.avtar
+
+  );
+}
