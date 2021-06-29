@@ -84,9 +84,14 @@ List<SingleChildWidget> dependentServices = [
         (context, UserRepository userRepo, AddUsersUseCase addUserUsecase) =>
             AddUsersUseCase(userRepo),
   ),
+  ProxyProvider<GetHiveUsersUseCase, SelectedListViewModel>(
+    update: (context, GetHiveUsersUseCase usecase,SelectedListViewModel viewModel )=>
+    SelectedListViewModel(usecase),
+    
+  ),
   ChangeNotifierProvider<BaseListViewModel>(
       create:
           (context) =>
               BaseListViewModel( userListScrollController: ScrollController())),
-
+  
 ];

@@ -13,7 +13,7 @@ class UserRequest extends GitUserLandingRestRequest {
       return page;
     });
        params.putIfAbsent("per_page", () {
-      return page;
+      return 10;
     });
     print('the end point${Endpoint.USERS}');
     return await execute(
