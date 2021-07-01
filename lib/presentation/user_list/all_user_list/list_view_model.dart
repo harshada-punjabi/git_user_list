@@ -10,7 +10,7 @@ import 'package:git_users/presentation/utils/strings.dart';
 import 'package:hive/hive.dart';
 
 class BaseListViewModel extends BaseViewModel {
-  BaseListViewModel( {this.getUsersUseCase,this.userListScrollController, this.addUsersUseCase});
+  BaseListViewModel( {this.getUsersUseCase,this.userListScrollController});
   List<UserItem> _userList = [];
   List<UserItem> _selectedUserList = [];
 
@@ -37,7 +37,8 @@ class BaseListViewModel extends BaseViewModel {
     notifyListeners();
   }
   void selectCard(UserItem userItem,{BuildContext context,
-    GetHiveUsersUseCaseParams getHiveUsersUseCaseParams})async{
+    AddHiveUsersUseCaseParams getHiveUsersUseCaseParams })async{
+    addUsersUseCase = Provider.of(context, listen: false);
 
     _userList.firstWhere((element) => element.id == userItem.id)
         .setSelected(!userItem.isSelected);

@@ -69,11 +69,11 @@ class UserDataSourceImpl extends UserDataSource {
             type: UserListLandingErrorType.SERVER_MESSAGE);
       } else {
          userResponse.getData().mapToDomain();
-         return true;
+
       }
     } on Exception catch (e) {
       print(e);
-      return false;
+
     }
   }
 }

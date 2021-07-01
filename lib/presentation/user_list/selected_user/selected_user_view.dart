@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/ui/base_widget.dart';
+import 'package:git_users/datasource/local/hive/user_model.dart';
+import 'package:git_users/presentation/utils/strings.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:git_users/generated/l10n.dart';
 import 'package:git_users/presentation/model/user_item.dart';
@@ -13,23 +16,31 @@ class SelectedListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<SelectedListViewModel>().getItem();
-
     return BaseWidget<SelectedListViewModel>(
       viewModel: SelectedListViewModel(Provider.of(context)),
       onModelReady: (model){
         model.getItem();
       },
       builder: (context, model, child){
-    return  ListView.builder(
+      if(model.busy){
+      return CircularProgressIndicator();
+    }else
+      return _buildList();
+      },
+    );
+  }
+  ListView _buildList(){
+    final userBox = Hive.box(Strings.userBox);
+    return ListView.builder(
       shrinkWrap: true,
       padding: const EdgeInsets.only(left: 12),
       physics: BouncingScrollPhysics(),
-      itemCount: model.userList
+      itemCount: userBox
           .length, //+1 for the CupertinoActivityIndicator
       itemBuilder: (context, index) {
-        UserItem userItem = model.userList[index];
-        if (index == model.userList.length) {
+
+        final userItem = userBox.get(index) as User;
+        if (index == userBox.length) {
           return Container(
             width: 120,
             height: 290,
@@ -62,12 +73,12 @@ class SelectedListViewWidget extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
-            // color: Colors.grey.withOpacity(0.75),
+
             border: Border.all(
-              color: Colors.grey,
+              color: Colors.green[300],
               width: 2,
             ),
-            color: Colors.grey,
+            color: Colors.green[300],
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
@@ -91,7 +102,7 @@ class SelectedListViewWidget extends StatelessWidget {
                   width: 120,
                   height: 200,
                   child: CachedNetworkImage(
-                    imageUrl: userItem.avtar,
+                    imageUrl: userItem.avatar,
                     placeholder: (context, url) =>
                         Container(
                           child:
@@ -188,7 +199,7 @@ class SelectedListViewWidget extends StatelessWidget {
                         padding: EdgeInsets.only(
                             top: 12),
                         child: Text(
-                          S.of(context).id + '${userItem.id}',
+                          S.of(context).id + '${userItem.id.toString()}',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight:
@@ -233,8 +244,6 @@ class SelectedListViewWidget extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
       },
     );
   }

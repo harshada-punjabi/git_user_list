@@ -14,7 +14,7 @@ class HiveRequest{
       final appDocumentDir = await getApplicationDocumentsDirectory();
       Hive.init(appDocumentDir.path);
       Hive.registerAdapter(UserAdapter());
-      await Hive.openBox<User>(Strings.userBox);
+      await Hive.openBox(Strings.userBox);
       return true;
     } on Exception catch (e) {
       print(e);
@@ -23,12 +23,11 @@ class HiveRequest{
   }
   Future addUser(List<UserDomain> users) async{
     try {
-      // return users hive box
-      final usersBox = Hive.box<User>(Strings.userBox);
 
-      // var box = await Hive.openBox<User>(Strings.userBox);
-      // box.add(users);
-      print('added');
+      // return users hive box
+      final usersBox = Hive.box(Strings.userBox);
+
+
       final converted = users
           .map((e) =>
           User(
@@ -37,13 +36,15 @@ class HiveRequest{
               avatar: e.avatar))
           .toList();
       print('converted:::: $converted');
+
       // insert all users to hive box
       final entries = await usersBox.addAll(converted);
+      print('added');
       print(entries);
-      return true;
+
     } on Exception catch (e) {
       print(e);
-      return false;
+
     }
   }
   Future getUsers() async{

@@ -5,22 +5,22 @@ import 'package:git_users/presentation/model/user_item.dart';
 import 'base_usecase.dart';
 
 class AddUsersUseCase
-    extends BaseUseCase<void, GetHiveUsersUseCaseParams> {
+    extends BaseUseCase<void, AddHiveUsersUseCaseParams> {
   final UserRepository _repository;
 
   AddUsersUseCase(this._repository);
 
   @override
-  Future<void> buildUseCaseFuture({GetHiveUsersUseCaseParams params}) async {
+  Future<void> buildUseCaseFuture({AddHiveUsersUseCaseParams params}) async {
 
     final result = await _repository.insertUsers(params.users.mapToUserListItem());
-    return result.PresentationToDomain();
+    return result;
 
   }
 }
 
 
-class GetHiveUsersUseCaseParams {
+class AddHiveUsersUseCaseParams{
   List<UserItem> users;
-  GetHiveUsersUseCaseParams(this.users);
+  AddHiveUsersUseCaseParams(this.users);
 }

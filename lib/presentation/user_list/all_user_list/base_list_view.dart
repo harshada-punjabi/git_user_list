@@ -16,10 +16,9 @@ class BaseListViewWidget extends StatelessWidget {
     return BaseWidget<BaseListViewModel>(
       viewModel: BaseListViewModel(
         getUsersUseCase: Provider.of(context), userListScrollController: ScrollController(),
-          addUsersUseCase: Provider.of<AddUsersUseCase>(context, listen: false)),
+          ),
       onModelReady: (model) async {
         await model.getUserList(params: GetUsersUseCaseParams(model.page));
-        model.addUsersUseCase = Provider.of(context);
         model.userListScrollController.addListener(() async {
           if (model.userListScrollController.position.maxScrollExtent ==
                   model.userListScrollController.position.pixels &&
@@ -123,7 +122,10 @@ class BaseListViewWidget extends StatelessWidget {
                   }
                   return GestureDetector(
                       onTap: () async{
-                        model.selectCard(model.userList[index], context: context, getHiveUsersUseCaseParams: GetHiveUsersUseCaseParams(model.userList));
+                        model.selectCard(model.userList[index], context: context,
+                            getHiveUsersUseCaseParams: AddHiveUsersUseCaseParams(model.userList),
+
+                        );
 
                       },
                       child: Container(
@@ -140,13 +142,13 @@ class BaseListViewWidget extends StatelessWidget {
                           // color: Colors.grey.withOpacity(0.75),
                           border: Border.all(
                             color: (model.userList[index].isSelected)
-                                ? Colors.black.withOpacity(0.8)
-                                : Colors.grey,
+                                ? Colors.green.withOpacity(0.8)
+                                : Colors.blue[500],
                             width: 2,
                           ),
                           color: (model.userList[index].isSelected)
-                              ? Colors.black.withOpacity(0.1)
-                              : Colors.grey,
+                              ? Colors.green.withOpacity(0.5)
+                              : Colors.blue[500],
                           borderRadius: BorderRadius.circular(8),
 
                           boxShadow: [
@@ -206,29 +208,29 @@ class BaseListViewWidget extends StatelessWidget {
                                           vertical: 12),
                                       height: 2,
                                       width: 34,
-                                      color: Colors.lightBlue[500],
+                                      color: Colors.black54,
                                     ),
                                     Row(
                                       children: <Widget>[
                                         Icon(
                                           Icons.star,
                                           size: 16,
-                                          color: Colors.lightBlue,
+                                          color: Colors.black54,
                                         ),
                                         Icon(
                                           Icons.star,
                                           size: 16,
-                                          color: Colors.lightBlue,
+                                          color: Colors.black54,
                                         ),
                                         Icon(
                                           Icons.star,
                                           size: 16,
-                                          color: Colors.lightBlue,
+                                          color: Colors.black54,
                                         ),
                                         Icon(
                                           Icons.star,
                                           size: 16,
-                                          color: Colors.lightBlue,
+                                          color: Colors.black54,
                                         ),
                                         Icon(
                                           Icons.star,
