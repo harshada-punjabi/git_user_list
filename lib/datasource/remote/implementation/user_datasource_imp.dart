@@ -6,15 +6,15 @@ import 'package:git_users/datasource/remote/providers/rest/response/user_respons
 import 'package:git_users/domain/model/user_domain.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/datasource/entity/user_entity.dart';
-import 'package:git_users/presentation/utils/strings.dart';
-import 'package:hive/hive.dart';
+import '../../../network.dart';
 
 
 class UserDataSourceImpl extends UserDataSource {
   UserRequest _userRequest;
   HiveRequest _hiveRequest;
+  final NetworkInfo networkInfo;
 
-  UserDataSourceImpl(this._userRequest, this._hiveRequest);
+  UserDataSourceImpl(this._userRequest, this._hiveRequest, this.networkInfo);
 
   @override
   Future<List<UserDomain>> getUsers({int page}) async {
@@ -26,7 +26,13 @@ class UserDataSourceImpl extends UserDataSource {
             message: userResponse.getErrorString(),
             type: UserListLandingErrorType.SERVER_MESSAGE);
       } else {
+        if (await networkInfo.isConnected)
         return userResponse.getData().mapToDomain();
+        else
+          throw UserListLandingError(
+              message: userResponse.getErrorString(),
+              type: UserListLandingErrorType.INTERNET_CONNECTIVITY);
+
       }
     } catch (exception) {
       throw UserListLandingError(
@@ -62,18 +68,9 @@ class UserDataSourceImpl extends UserDataSource {
     try {
       // return users hive box
       final response = await _hiveRequest.addUser(users);
-      UserResponse userResponse = UserResponse(response);
-      if (userResponse.getErrors().length != 0) {
-        throw UserListLandingError(
-            message: userResponse.getErrorString(),
-            type: UserListLandingErrorType.SERVER_MESSAGE);
-      } else {
-         userResponse.getData().mapToDomain();
-
-      }
+      return response;
     } on Exception catch (e) {
       print(e);
-
     }
   }
 }

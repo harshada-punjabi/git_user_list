@@ -1,44 +1,45 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/ui/base_widget.dart';
 import 'package:git_users/domain/usecase/add_user_hive_usecase.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/generated/l10n.dart';
+import 'package:git_users/network.dart';
 import 'package:git_users/presentation/model/user_item.dart';
 import 'package:provider/provider.dart';
 import 'list_view_model.dart';
 
 class BaseListViewWidget extends StatelessWidget {
+  dynamic connectivity;
   @override
   Widget build(BuildContext context) {
 
     return BaseWidget<BaseListViewModel>(
       viewModel: BaseListViewModel(
         getUsersUseCase: Provider.of(context), userListScrollController: ScrollController(),
+        addUsersUseCase: Provider.of(context, listen:  false),
           ),
       onModelReady: (model) async {
         await model.getUserList(params: GetUsersUseCaseParams(model.page));
-        model.userListScrollController.addListener(() async {
-          if (model.userListScrollController.position.maxScrollExtent ==
-                  model.userListScrollController.position.pixels &&
-              !model.busy) {
-            model.setBusy(true);
-            print('List End: Loading more user');
-            await model
-                .getUserList(params: GetUsersUseCaseParams(model.page))
-                .then((response) {
-              model.userList.addAll(response);
-            });
-            model.setBusy(false);
-          }
-        });
+        model.onScroll();
+         // connectivity = await model.network.isConnected();
       },
       builder: (context, model, child) {
-        return SingleChildScrollView(
+        if(model.notConnected)
+      return  Container(
+
+          padding: EdgeInsets.symmetric(vertical: 50,horizontal: 20),
+          child: Center(child: Text('Please check your internet connection'),),
+        ) ;
+        else
+        return
+          SingleChildScrollView(
           controller: model.userListScrollController,
-          child: Column(
+          child:Column(
             children: [
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
@@ -88,6 +89,7 @@ class BaseListViewWidget extends StatelessWidget {
                   ),
                 ),
               ),
+
               ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(left: 12),
@@ -98,31 +100,33 @@ class BaseListViewWidget extends StatelessWidget {
                 //+1 for the CupertinoActivityIndicator
                 itemBuilder: (context, index) {
                   // UserItem usr = model.userList[index];
+
                   model.page = model.userList.length;
-                  if (!model.busy && index == model.userList.length) {
-                    return Container(
-                      width: 120,
-                      height: 290,
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          CupertinoActivityIndicator(radius: 15),
-                          SizedBox(height: 20),
-                          Text(
-                            S.of(context).loadingMore,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white.withOpacity(0.5),
+                    if (!model.busy && index == model.userList.length) {
+                      return Container(
+                        width: 120,
+                        height: 290,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            CupertinoActivityIndicator(radius: 15),
+                            SizedBox(height: 20),
+                            Text(
+                              S.of(context).loadingMore,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
+                          ],
+                        ),
+                      );
+                    }
+
                   return GestureDetector(
                       onTap: () async{
-                        model.selectCard(model.userList[index], context: context,
+                        model.selectCard(model.userList[index],
                             getHiveUsersUseCaseParams: AddHiveUsersUseCaseParams(model.userList),
 
                         );

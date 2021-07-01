@@ -1,32 +1,15 @@
 
-import 'package:connectivity/connectivity.dart';
-import 'package:flutter/material.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
-abstract class NetworkInfoI {
-  Future<bool> isConnected();
-  Future<ConnectivityResult> get connectivityResult;
-  Stream<ConnectivityResult> get onConnectivityChanged;
+abstract class NetworkInfo {
+  Future<bool> get isConnected;
 }
 
-class NetworkInfo implements NetworkInfoI {
-  final Connectivity connectivity;
-  NetworkInfo({@required this.connectivity});
+class NetworkInfoImpl implements NetworkInfo {
+  final DataConnectionChecker connectionChecker;
+
+  NetworkInfoImpl(this.connectionChecker);
 
   @override
-  Future<bool> isConnected() async {
-    final result = await connectivity.checkConnectivity();
-    if (result != ConnectivityResult.none) {
-      return true;
-    }
-    return false;
-  }
-
-  @override
-  Future<ConnectivityResult> get connectivityResult async {
-    return connectivity.checkConnectivity();
-  }
-
-  @override
-  Stream<ConnectivityResult> get onConnectivityChanged =>
-      connectivity.onConnectivityChanged;
+  Future<bool> get isConnected => connectionChecker.hasConnection;
 }

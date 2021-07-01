@@ -2,13 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/responsive/orientation_layout.dart';
 import 'package:flutter_base_architecture/responsive/screen_type_layout.dart';
-import 'package:flutter_paginator/flutter_paginator.dart';
-import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
 import 'package:git_users/presentation/user_list/user_list_view_mobile.dart';
 import 'package:git_users/presentation/user_list/user_list_view_model.dart';
-import 'package:git_users/presentation/user_list/all_user_list/list_view_model.dart';
-import 'package:provider/provider.dart';
+
 
 class UserListView extends GitUserBaseView<UserListViewModel> {
   UserListView();
