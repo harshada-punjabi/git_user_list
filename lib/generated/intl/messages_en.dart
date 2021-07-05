@@ -27,5 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Git User"),
         "gitUserListLoad": MessageLookupByLibrary.simpleMessage(
             "Currently no list available please bind UI with data to show the list"),
+    "loadingMore": MessageLookupByLibrary.simpleMessage("Loading More"),
       };
 }

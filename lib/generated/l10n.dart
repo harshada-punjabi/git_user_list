@@ -67,6 +67,40 @@ class S {
     );
   }
 
+  String get loadingMore {
+    return Intl.message(
+      'Loading More',
+      name: 'loadingMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get id {
+    return Intl.message(
+      'Id:',
+      name: 'id',
+      desc: '',
+      args: [],
+    );
+  }
+  String get followersTag {
+    return Intl.message(
+      'Followers: NA}',
+      name: 'followersTag',
+      desc: '',
+      args: [],
+    );
+  }
+ String get followingTag {
+    return Intl.message(
+      'Following: NA}',
+      name: 'followingTag',
+      desc: '',
+      args: [],
+    );
+  }
+
 
 
 }

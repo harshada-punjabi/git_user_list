@@ -7,14 +7,18 @@ import '../end_points.dart';
 class UserRequest extends GitUserLandingRestRequest {
   UserRequest(RESTService service) : super(service);
 
-  Future getUsers() async {
+  Future getUsers({int page}) async {
     Map<String, dynamic> params = Map();
     params.putIfAbsent("since", () {
-      return 31;
+      return page;
+    });
+       params.putIfAbsent("per_page", () {
+      return 10;
     });
     print('the end point${Endpoint.USERS}');
     return await execute(
         Endpoint.USERS, params, RESTService.GET, ApiIdentifier.API_USER_LIST,
         forceRefresh: true);
   }
+
 }

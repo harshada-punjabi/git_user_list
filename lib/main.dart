@@ -1,15 +1,23 @@
 import 'dart:async';
-
+import 'dart:io';
+import 'package:git_users/datasource/local/hive/user_model.dart';
+import 'package:path_provider/path_provider.dart'as pathProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_base_architecture/ui/base_widget.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import 'di/providers.dart';
 import 'git_user_landing_page_application.dart';
 import 'git_user_landing_page_application_viewmodel.dart';
 
-void main() {
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  //todo initialise the the initDb 
+  // Directory directory = await pathProvider.getApplicationDocumentsDirectory();
+  // Hive.init(directory.path);
+  // Hive.registerAdapter(UserAdapter());
+
   runZoned(() {
     runApp(
       MultiProvider(
