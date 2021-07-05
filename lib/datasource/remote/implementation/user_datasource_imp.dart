@@ -47,14 +47,7 @@ class UserDataSourceImpl extends UserDataSource {
     // return users hive box
     try{
  final response = await _hiveRequest.getUsers();
- UserResponse userResponse = UserResponse(response);
- if (userResponse.getErrors().length != 0) {
-   throw UserListLandingError(
-       message: userResponse.getErrorString(),
-       type: UserListLandingErrorType.SERVER_MESSAGE);
- } else {
-   return userResponse.getData().mapToDomain();
- }
+ return response;
     } catch (exception) {
       throw UserListLandingError(
           message: exception.toString(),
@@ -73,6 +66,7 @@ class UserDataSourceImpl extends UserDataSource {
       print(e);
     }
   }
+
 }
 
 

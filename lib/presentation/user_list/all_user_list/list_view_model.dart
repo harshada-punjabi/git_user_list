@@ -11,7 +11,18 @@ class BaseListViewModel extends BaseViewModel {
   BaseListViewModel({this.getUsersUseCase,this.userListScrollController, this.addUsersUseCase,});
   List<UserItem> _userList = [];
   List<UserItem> _selectedUserList = [];
-
+  bool selectionModeOn = false;
+  bool returnAvailable(int index) {
+    bool flag = false;
+    for (int i = 0; i < _selectedUserList.length; i++) {
+      if (_selectedUserList[i].isSelected) {
+        selectionModeOn = true;
+        print('selectionMode on ::: $selectionModeOn');
+        return selectionModeOn;
+      }
+    }
+    return flag;
+  }
   List<UserItem> get selectedUserList => _selectedUserList;
 
   set selectedUserList(List<UserItem> value) {
@@ -35,17 +46,27 @@ class BaseListViewModel extends BaseViewModel {
   void refresh() {
     notifyListeners();
   }
-  void selectCard(UserItem userItem,{AddHiveUsersUseCaseParams getHiveUsersUseCaseParams })async{
+  void addUser(AddHiveUsersUseCaseParams params) async{
+    setBusy(true);
+    await addUsersUseCase.buildUseCaseFuture(params: params).catchError((error){
+      print("error> ${error.toString()}");
+      setBusy(false);
+    }, test: (error) => error is UserListLandingError);
+    setBusy(false);
+    notifyListeners();
+  }
+  void selectCard(UserItem userItem,{AddHiveUsersUseCaseParams params})async{
     _userList.firstWhere((element) => element.id == userItem.id)
         .setSelected(!userItem.isSelected);
     if(_userList.contains(userItem))
       _selectedUserList.add(userItem);
-   getHiveUsersUseCaseParams.users = _selectedUserList;
+    params.users = _selectedUserList;
    notifyListeners();
-   await addUsersUseCase.buildUseCaseFuture(params: getHiveUsersUseCaseParams).catchError((error){
+   await addUsersUseCase.buildUseCaseFuture(params: params).catchError((error){
       print("error> ${error.toString()}");
     }, test: (error) => error is UserListLandingError);
     notifyListeners();
+
   }
 
   Future<dynamic> getUserList({GetUsersUseCaseParams params}) async {
@@ -64,17 +85,9 @@ class BaseListViewModel extends BaseViewModel {
         userList.addAll(result);
         print('length of the user list is as follows ${userList.length}');
     }
-    // }else {
-    //   SnackBar(content: Text('Offline mode', semanticsLabel: 'There is no internet connection'),);
-    // }
     setBusy(false);
-    // return result;
   }
-  void onScroll(){
-    userListScrollController.addListener(() async {
-      if (userListScrollController.position.maxScrollExtent ==
-          userListScrollController.position.pixels &&
-          !busy) {
+  void onScroll()async{
         setBusy(true);
         print('List End: Loading more user');
         await getUserList(params: GetUsersUseCaseParams(page))
@@ -82,7 +95,10 @@ class BaseListViewModel extends BaseViewModel {
           userList.addAll(response);
         });
         setBusy(false);
-      }
-    });
+  }
+  @override
+  void dispose() {
+
+    super.dispose();
   }
 }
