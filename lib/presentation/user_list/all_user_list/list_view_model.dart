@@ -88,7 +88,6 @@ class BaseListViewModel extends BaseViewModel {
     setBusy(false);
   }
   void onScroll()async{
-        setBusy(true);
         print('List End: Loading more user');
         await getUserList(params: GetUsersUseCaseParams(page))
             .then((response) {
