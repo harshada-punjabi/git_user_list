@@ -94,7 +94,6 @@ class BaseListViewModel extends BaseViewModel {
             .then((response) {
           userList.addAll(response);
         });
-        setBusy(false);
   }
   @override
   void dispose() {
