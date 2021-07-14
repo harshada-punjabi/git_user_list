@@ -16,6 +16,8 @@ import 'package:git_users/domain/model/user_domain.dart';
 
 import 'package:git_users/domain/repository/user_repository.dart';
 import 'package:git_users/domain/usecase/add_user_hive_usecase.dart';
+import 'package:git_users/domain/usecase/clear_box_usecase.dart';
+import 'package:git_users/domain/usecase/delete_user_usecase.dart';
 import 'package:git_users/domain/usecase/get_hive_users_usecase.dart';
 import 'package:git_users/domain/usecase/get_user_list_usecase.dart';
 import 'package:git_users/presentation/base/view/git_user_landing_base_view.dart';
@@ -96,9 +98,19 @@ List<SingleChildWidget> dependentServices = [
         (context, UserRepository userRepo, AddUsersUseCase addUserUsecase) =>
             AddUsersUseCase(userRepo),
   ),
-  ProxyProvider<GetHiveUsersUseCase, SelectedListViewModel>(
-    update: (context, GetHiveUsersUseCase usecase,SelectedListViewModel viewModel )=>
-    SelectedListViewModel(usecase),
+  ProxyProvider<UserRepository, DeleteUserUseCase>(
+    update:
+        (context, UserRepository userRepo, DeleteUserUseCase deleteUseCase) =>
+            DeleteUserUseCase(userRepo),
+  ),
+  ProxyProvider<UserRepository, DeleteAllUserUseCase>(
+    update:
+        (context, UserRepository userRepo, DeleteAllUserUseCase deleteUseCase) =>
+            DeleteAllUserUseCase(userRepo),
+  ),
+  ProxyProvider3<GetHiveUsersUseCase,DeleteUserUseCase,DeleteAllUserUseCase, SelectedListViewModel>(
+    update: (context, GetHiveUsersUseCase usecase, DeleteUserUseCase deleteUserUseCase,DeleteAllUserUseCase deleteAllUseCase,SelectedListViewModel viewModel )=>
+    SelectedListViewModel(usecase, deleteUserUseCase,deleteAllUseCase),
     
   ),
 
@@ -109,6 +121,6 @@ List<SingleChildWidget> dependentServices = [
   ChangeNotifierProvider<SelectedListViewModel>(
       create:
           (context) =>
-              SelectedListViewModel(Provider.of(context))),
+              SelectedListViewModel(Provider.of(context),Provider.of(context), Provider.of(context))),
 
 ];

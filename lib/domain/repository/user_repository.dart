@@ -4,4 +4,6 @@ abstract class UserRepository {
   Future<List<UserDomain>> fetchUserList({int page});
   Future<List<UserDomain>> fetchHiveUser();
   Future insertUsers(List<UserDomain> users);
+  Future deleteUser(int index);
+ Future clearDataBase();
 }

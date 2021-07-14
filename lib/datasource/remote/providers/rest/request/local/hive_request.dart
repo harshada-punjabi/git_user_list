@@ -23,11 +23,8 @@ class HiveRequest{
   }
   Future addUser(List<UserDomain> users) async{
     try {
-
       // return users hive box
       final usersBox = Hive.box(Strings.userBox);
-
-
       final converted = users
           .map((e) =>
           User(
@@ -36,7 +33,7 @@ class HiveRequest{
               avatar: e.avatar))
           .toList();
       print('converted:::: $converted');
-
+      print('converted:::: ${converted.length}');
       // insert all users to hive box
       final entries = await usersBox.addAll(converted);
       print('added');
@@ -48,9 +45,9 @@ class HiveRequest{
     }
   }
   Future getUsers() async{
-    //todo get the users from hive database
     try{
-      final box = Hive.box<User>(Strings.userBox);
+      final box = Hive.box(Strings.userBox);
+      print('the length of hive box.....${box.values.length}');
       return box.values.map<User>((e) {
         return User(
           id: e.id,
@@ -58,6 +55,25 @@ class HiveRequest{
           avatar: e.avatar,
         );
       }).toList();
+
+    }on Exception catch (e){
+      print(e);
+    }
+  }
+
+ Future deleteUser(int index) async {
+    try{
+      final box = Hive.box(Strings.userBox);
+      return box.deleteAt(index);
+    }on Exception catch (e){
+      print(e);
+    }
+  }
+ Future clearDataBase() async {
+    try{
+      final box = Hive.box(Strings.userBox);
+      final deleted = await box.clear();
+      return deleted;
     }on Exception catch (e){
       print(e);
     }

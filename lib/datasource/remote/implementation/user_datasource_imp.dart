@@ -1,5 +1,4 @@
 import 'package:git_users/data/datasources/user_datasource.dart';
-import 'package:git_users/datasource/local/hive/user_model.dart';
 import 'package:git_users/datasource/remote/providers/rest/request/local/hive_request.dart';
 import 'package:git_users/datasource/remote/providers/rest/request/user_request.dart';
 import 'package:git_users/datasource/remote/providers/rest/response/user_response.dart';
@@ -65,6 +64,18 @@ class UserDataSourceImpl extends UserDataSource {
     } on Exception catch (e) {
       print(e);
     }
+  }
+
+  @override
+  Future deleteUser(int index) async{
+   final response = await _hiveRequest.deleteUser(index);
+   return response;
+  }
+
+  @override
+  Future clearDataBase() async{
+    final response = await _hiveRequest.clearDataBase();
+    return response;
   }
 
 }
