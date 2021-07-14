@@ -49,26 +49,20 @@ class BaseListViewModel extends BaseViewModel {
   void addUser(AddHiveUsersUseCaseParams params) async{
     setBusy(true);
     params.users = _selectedUserList;
-    notifyListeners();
+    // notifyListeners();
     await addUsersUseCase.buildUseCaseFuture(params: params).catchError((error){
       print("error> ${error.toString()}");
       setBusy(false);
     }, test: (error) => error is UserListLandingError);
     setBusy(false);
-    notifyListeners();
+    // notifyListeners();
   }
-  void selectCard(UserItem userItem,{AddHiveUsersUseCaseParams params})async{
+  void selectCard(UserItem userItem)async{
     _userList.firstWhere((element) => element.id == userItem.id)
         .setSelected(!userItem.isSelected);
     if(_userList.contains(userItem))
       _selectedUserList.add(userItem);
-    // params.users = _selectedUserList;
    notifyListeners();
-   // await addUsersUseCase.buildUseCaseFuture(params: params).catchError((error){
-   //    print("error> ${error.toString()}");
-   //  }, test: (error) => error is UserListLandingError);
-   //  notifyListeners();
-
   }
 
   Future<dynamic> getUserList({GetUsersUseCaseParams params}) async {

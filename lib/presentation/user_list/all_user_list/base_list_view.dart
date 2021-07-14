@@ -99,7 +99,6 @@ class BaseListViewWidget extends StatelessWidget {
                               child: IconButton(
                                 icon: Icon(Icons.close,color: Colors.white,),
                                 onPressed: () {
-                                  Navigator.pop(context);
                                   model.selectedUserList.clear();
                                   model.refresh();
                                   // setState(() {

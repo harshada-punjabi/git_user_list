@@ -26,22 +26,19 @@ class HiveRequest{
       // return users hive box
       final usersBox = Hive.box(Strings.userBox);
       final converted = users
-          .map((e) =>
-          User(
-              id: e.id,
-              login: e.login,
-              avatar: e.avatar))
+          .map((e) async{
+        await usersBox.put(e.id.toString(),User(
+            id: e.id,
+            login: e.login,
+            avatar: e.avatar));
+        print('added');
+      }
+         )
           .toList();
       print('converted:::: $converted');
       print('converted:::: ${converted.length}');
-      // insert all users to hive box
-      final entries = await usersBox.addAll(converted);
-      print('added');
-      print(entries);
-
     } on Exception catch (e) {
       print(e);
-
     }
   }
   Future getUsers() async{
@@ -61,10 +58,10 @@ class HiveRequest{
     }
   }
 
- Future deleteUser(int index) async {
+ Future deleteUser(List<String> index) async {
     try{
       final box = Hive.box(Strings.userBox);
-      return box.deleteAt(index);
+      return  box.deleteAll(index);
     }on Exception catch (e){
       print(e);
     }

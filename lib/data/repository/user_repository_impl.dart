@@ -27,7 +27,7 @@ Future insertUsers(List<UserDomain> users){
 }
 
   @override
-  Future deleteUser(int index) {
+  Future deleteUser(List<String> index) {
     return dataSource.deleteUser(index);
   }
 

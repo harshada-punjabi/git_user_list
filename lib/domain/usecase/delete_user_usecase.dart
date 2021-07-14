@@ -19,6 +19,6 @@ class DeleteUserUseCase
 
 
 class DeleteUserUseCaseParams{
-  int index;
+  List<String> index;
   DeleteUserUseCaseParams(this.index);
 }

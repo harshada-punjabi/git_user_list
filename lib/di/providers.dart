@@ -118,9 +118,9 @@ List<SingleChildWidget> dependentServices = [
       create:
           (context) =>
               BaseListViewModel(userListScrollController: ScrollController())),
-  ChangeNotifierProvider<SelectedListViewModel>(
-      create:
-          (context) =>
-              SelectedListViewModel(Provider.of(context),Provider.of(context), Provider.of(context))),
+  // ChangeNotifierProvider<SelectedListViewModel>(
+  //     create:
+  //         (context) =>
+  //             SelectedListViewModel(Provider.of(context),Provider.of(context), Provider.of(context))),
 
 ];

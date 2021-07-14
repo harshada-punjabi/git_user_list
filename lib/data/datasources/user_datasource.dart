@@ -5,7 +5,7 @@ abstract class UserDataSource {
   Future<List<UserDomain>> getUsersFromHive();
   Future insertUsers(List<UserDomain> users);
 
-  Future deleteUser(int index);
+  Future deleteUser(List<String> index);
 
   Future clearDataBase();
 }

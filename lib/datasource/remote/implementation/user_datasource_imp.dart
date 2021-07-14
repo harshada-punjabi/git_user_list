@@ -67,7 +67,7 @@ class UserDataSourceImpl extends UserDataSource {
   }
 
   @override
-  Future deleteUser(int index) async{
+  Future deleteUser(List<String> index) async{
    final response = await _hiveRequest.deleteUser(index);
    return response;
   }
