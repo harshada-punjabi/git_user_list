@@ -4,4 +4,8 @@ abstract class UserDataSource {
   Future<List<UserDomain>> getUsers({int page});
   Future<List<UserDomain>> getUsersFromHive();
   Future insertUsers(List<UserDomain> users);
+
+  Future deleteUser(List<String> index);
+
+  Future clearDataBase();
 }

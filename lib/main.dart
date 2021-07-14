@@ -13,10 +13,6 @@ import 'git_user_landing_page_application_viewmodel.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  //todo initialise the the initDb 
-  // Directory directory = await pathProvider.getApplicationDocumentsDirectory();
-  // Hive.init(directory.path);
-  // Hive.registerAdapter(UserAdapter());
 
   runZoned(() {
     runApp(

@@ -13,6 +13,11 @@ class User extends UserDomain{
 
   @HiveField(2)
   final String avatar;
+  bool isSelected;
 
-  User({this.id, this.login, this.avatar});
+  setSelected(bool value) {
+    this.isSelected = value;
+  }
+
+  User({this.id, this.login, this.avatar, this.isSelected=false});
 }
